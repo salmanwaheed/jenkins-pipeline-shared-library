@@ -1,0 +1,137 @@
+// def call(Closure body) {
+//   def notify = new com.YcNotify()
+//   def utils = new com.YcDsl()
+//   body.resolveStrategy = Closure.DELEGATE_FIRST
+//   body.delegate = utils
+//   body()
+
+//   // properties([
+//   //   buildDiscarder(
+//   //     logRotator(
+//   //       artifactDaysToKeepStr: '',
+//   //       artifactNumToKeepStr: '',
+//   //       daysToKeepStr: '30',
+//   //       numToKeepStr: ''
+//   //     )
+//   //   ),
+//   //   githubProjectProperty(displayName: '', projectUrlStr: 'https://github.com/'),
+//   //   parameters([
+//   //     string(defaultValue: 'Hello', description: 'How should I greet the world?', name: 'Greeting', trim: true)
+//   //   ]),
+//   //   pipelineTriggers([
+//   //     upstream('tset')
+//   //   ])
+//   // ])
+
+//   // node() {
+//   //   echo "${utils.apps}"
+//   //   echo "${utils.agent}"
+//   //   echo "${utils.daysToKeeplogs}"
+//   //   echo "${utils.upstreams}"
+//   //   echo "${utils.downstreams}"
+
+//   //   stage("build") {
+//   //     for (x in utils.apps) {
+//   //       dir("${x}") {
+//   //           git branch: params.Greeting,
+//   //               changelog: false,
+//   //               credentialsId: "env.GITHUB_CREDENTIAL",
+//   //               poll: false,
+//   //               url: "git@github.com:compareit4mehub/${x}.git"
+//   //       }
+//   //     }
+//   //   }
+//   // }
+
+//   pipeline {
+//     // agent { label "stg-yc-builder" }
+//     agent any
+
+//     environment {
+//       APP_NAME = "cover"
+//       GITHUB_URL_1 = "git@github.com:compareit4mehub/cover.git"
+//       GITHUB_URL_2 = "git@github.com:compareit4mehub/safeguard.git"
+//       GITHUB_CREDENTIAL = "cc641387-ab21-4b26-9959-33b0f9ae9e3a"
+//     }
+
+//     parameters {
+//       string(
+//         name: "Safeguard",
+//         defaultValue: "release",
+//         trim: true,
+//         description: "which branch you want to deploy?"
+//       )
+//     }
+
+//     options {
+//       buildDiscarder(
+//         logRotator(
+//           daysToKeepStr: "30",
+//           // numToKeepStr: "60"
+//         )
+//       )
+//       timestamps()
+//     }
+
+//     stages {
+//       stage("checkout") {
+//         steps {
+//           script {
+//             notify.started()
+//             echo "checkout"
+
+//             // dir("cover") {
+//             //   git branch: params.Cover,
+//             //     changelog: false,
+//             //     credentialsId: env.GITHUB_CREDENTIAL,
+//             //     poll: false,
+//             //     url: env.GITHUB_URL_1
+//             // }
+
+//             // dir("safeguard") {
+//             //   git branch: params.Safeguard,
+//             //     changelog: false,
+//             //     credentialsId: env.GITHUB_CREDENTIAL,
+//             //     poll: false,
+//             //     url: env.GITHUB_URL_2
+//             // }
+//           }
+//         }
+//       }
+
+//       stage("build") {
+//         steps {
+//           script {
+//             // sh "$HOME/my_bin/init.sh"
+//             // sh "$WORKSPACE/cover/gradlew clean war -Dgrails.env=stageCover1"
+//             echo "build"
+//           }
+//         }
+//       }
+//     }
+
+//     post {
+//       success {
+//         script {
+//           // build job: "stg-insurance-cover-1"
+//           echo "success"
+
+//           notify.succeed()
+//         }
+//       }
+
+//       failure {
+//         script {
+//           notify.failed()
+//         }
+//       }
+
+//       aborted {
+//         script {
+//           notify.aborted()
+//         }
+//       }
+//     }
+//   }
+
+// }

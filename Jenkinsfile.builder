@@ -1,16 +1,19 @@
-// @Library("yc-lib")_
+@Library("yc-lib")_
 
-// yc_builder {
-//     name "test"
-//     agent "my-agent"
-//     daysToKeeplogs 30
-//     repos ["cover", "safeguard"]
+yc_jenkins_config {
+    apps "cover", "safeguard"
+    agent "my-agent"
+    daysToKeeplogs 30
+    upstreams "up"
+    downstreams "down", "test"
 
-//     builds [
-//         "echo 'hello first script'",
-//         "echo 'hello second script'"
-//     ]
+    actions {
+      echo 'hello first script'
+      echo 'hello second script'
+    }
 
-//     upstreams = ["up"]
-//     downstreams = ["down"]
-// }
+    // actions [
+    //     "echo 'hello first script'",
+    //     "echo 'hello second script'"
+    // ]
+}

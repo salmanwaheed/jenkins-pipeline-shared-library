@@ -7,7 +7,7 @@ class YcDsl {
   Integer daysToKeeplogs = 60
   List downstreams = []
   List upstreams = []
-  List actions = []
+  YcAction actions
 
   def apps(String[] arg) {
     this.apps = arg
@@ -29,12 +29,24 @@ class YcDsl {
     this.downstreams = args
   }
 
-  // def actions(Closure body) {
-  //   // this.actions = actions
+  // def parameters() {
+  //   // return parameters(
+  //     this.apps.each { x ->
+  //       string(
+  //         name: "${x}",
+  //         defaultValue: "release",
+  //         trim: true,
+  //         description: "which branch you want to deploy?"
+  //       )
+  //     }
+  //   // )
+  // }
 
+  // def actions(Closure body) {
   //   def utils = new com.YcAction()
   //   body.resolveStrategy = Closure.DELEGATE_FIRST
   //   body.delegate = utils
-  //   body()
+  //   // this.actions = body
+  //   body.call()
   // }
 }
