@@ -9,13 +9,14 @@ class Stages implements Serializable {
 
   def checkout(args=[:]) {
     args.get("name", "Checkout")
+    args.get("apps", [])
+
+    if ( !args.apps ) return;
 
     lib.stage(args.name) {
       // lib.echo "my checkout ${args}"
-
       args.apps.each {
         def app_name = it.name.toLowerCase()
-
         lib.dir(app_name) {
           lib.git branch: lib.params."${app_name.capitalize()}",
               changelog: false,
@@ -29,9 +30,14 @@ class Stages implements Serializable {
 
   def build(args=[:]) {
     args.get("name", "Build")
+    args.get("commands", [])
+
+    if ( !args.commands ) return;
 
     lib.stage(args.name) {
-      lib.echo "my build"
+      args.commands.each { key, value ->
+        lib."${key}" "${value}"
+      }
     }
   }
 }

@@ -8,8 +8,8 @@ class Properties implements Serializable {
   }
 
   def githubProject(args=[:]) {
-    args.get("name", null)
-    args.get("url", null)
+    args.get("name", "")
+    args.get("url", "")
 
     lib.githubProjectProperty(
       displayName: args.name,
@@ -18,7 +18,7 @@ class Properties implements Serializable {
   }
 
   def logs(args=[:]) {
-    args.get("days", -1)
+    args.get("days", "-1")
 
     lib.buildDiscarder(
       lib.logRotator(daysToKeepStr: "${args.days}")
@@ -32,6 +32,10 @@ class Properties implements Serializable {
   // }
 
   def parameters(args=[:]) {
+    args.get("apps", [])
+
+    if ( !args.apps ) return;
+
     def params = []
     args.apps.each {
       def method_type = it.type

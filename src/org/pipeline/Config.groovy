@@ -6,4 +6,5 @@ class Config implements Serializable {
   def environments = [:]
   def logs = [:]
   def githubProject = [:]
+  def build_commands = [:]
 }

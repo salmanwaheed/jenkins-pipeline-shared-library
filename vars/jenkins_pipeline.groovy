@@ -31,11 +31,11 @@ def call(Closure body) {
   // config.downstreams = ["down", "test"]
   // echo "config.downstreams: ${config.downstreams}"
 
-  // config.builds = [
+  // config.build_commands = [
   //     echo: "Hi, echo",
-  //     sh: "hello, shell"
+  //     sh: "echo hello, shell"
   // ]
-  // echo "config.builds: ${config.builds}"
+  echo "config.build_commands: ${config.build_commands}"
 
   def utils = new Pipeline(this, config)
   utils.run()
