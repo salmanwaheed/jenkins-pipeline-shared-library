@@ -1,29 +1,42 @@
+import org.pipeline.Config
 import org.pipeline.Pipeline
 
 def call(Closure body) {
-  def config = [:]
+  def config = new Config()
   body.resolveStrategy = Closure.DELEGATE_FIRST
   body.delegate = config
   body()
 
-  def utils = new Pipeline(this)
-  utils.apps = ["cover", "safeguard"]
-  utils.agent = null
+  // config.apps = [
+  //   [ name: "cover", type: "string", defaultBranch: "branch-name", desc: "my string" ],
+  //   [ name: "safeguard", type: "choice", choices: ["item-1", "item-2"], desc: "my choices" ]
+  // ]
+  echo "config.apps: ${config.apps}"
 
-  utils.environments = [
-    APP_NAME: utils.apps?.find { true }
-  ]
+  // config.agent = null
+  echo "config.agent: ${config.agent}"
 
-  utils.logs = [ days: 30 ]
-  utils.githubProject = [ name: "testing...", url: "https://github.com" ]
+  config.environments.get('APP_NAME', config.apps?.name?.find { true } )
+  echo "config.environments: ${config.environments}"
 
-  // utils.upstreams = ["up"]
-  // utils.downstreams = ["down", "test"]
+  // config.logs = [ days: 30 ]
+  echo "config.logs: ${config.logs}"
 
-  // utils.builds = [
+  // config.githubProject = [ name: "testing...", url: "https://github.com" ]
+  echo "config.githubProject: ${config.githubProject}"
+
+  // config.upstreams = ["up"]
+  // echo "config.upstreams: ${config.upstreams}"
+
+  // config.downstreams = ["down", "test"]
+  // echo "config.downstreams: ${config.downstreams}"
+
+  // config.builds = [
   //     echo: "Hi, echo",
   //     sh: "hello, shell"
   // ]
+  // echo "config.builds: ${config.builds}"
 
+  def utils = new Pipeline(this, config)
   utils.run()
 }

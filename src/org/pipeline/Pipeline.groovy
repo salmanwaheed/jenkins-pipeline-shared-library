@@ -8,19 +8,16 @@ import org.pipeline.Notify
 class Pipeline implements Serializable {
 
   def lib
-  def agent = null
-  def apps = []
-  def environments = [:]
-  def logs = [:]
-  def githubProject = [:]
+  def config
 
-  Pipeline(lib) {
+  Pipeline(lib, Config config) {
     this.lib = lib
+    this.config = config
   }
 
   def envs() {
     def envs = []
-    this.environments.each { key, value ->
+    this.config.environments.each { key, value ->
       envs.add("${key}=${value}")
     }
     return envs
@@ -30,26 +27,26 @@ class Pipeline implements Serializable {
     Properties props = new Properties(lib)
 
     props.generate([
-      props.githubProject(this.githubProject),
-      props.logs(this.logs),
-      props.parameters(apps: this.apps)
+      props.githubProject(this.config.githubProject),
+      props.logs(this.config.logs),
+      props.parameters(apps: this.config.apps)
     ])
   }
 
   def stages() {
     Stages stage = new Stages(lib)
 
-    stage.checkout name: "checkout", apps: this.apps
-    stage.build name: "build"
+    stage.checkout apps: this.config.apps
+    stage.build()
   }
 
   def run() {
-    lib.node(this.agent) {
+    lib.node(this.config.agent) {
       lib.withEnv( this.envs() ) {
         lib.timestamps {
-          // lib.echo "${this.environments}"
-          lib.echo "${lib.env.APP_NAME}"
-          // echo this.apps
+          // lib.echo "${this.config.environments}"
+          // lib.echo "${lib.env.APP_NAME}"
+          // echo this.config.apps
 
           this.properties()
           this.stages()
