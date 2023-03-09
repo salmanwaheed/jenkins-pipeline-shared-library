@@ -44,5 +44,10 @@ jenkins_pipeline {
 
   // upstreams = ["up"]
   // downstreams = ["down", "test"]
+
+  build_commands = [
+    echo: "Hi, echo",
+    sh: "echo hello, shell"
+  ]
 }
 ```

@@ -37,7 +37,7 @@ class Pipeline implements Serializable {
     Stages stage = new Stages(lib)
 
     stage.checkout apps: this.config.apps
-    stage.build()
+    stage.build commands: this.config.build_commands
   }
 
   def run() {
