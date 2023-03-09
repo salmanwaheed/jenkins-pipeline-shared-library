@@ -27,10 +27,22 @@ create an item, choose pipeline and configure.
 @Library("shared-library")_
 
 jenkins_pipeline {
-  apps "cover", "safeguard"
-  agent "my-agent"
-  daysToKeeplogs 30
-  upstreams "up"
-  downstreams "down", "test"
+  agent = "my-agent"
+
+  apps = [
+    [ name: "cover", type: "string", defaultBranch: "branch-name", desc: "my string" ],
+    [ name: "safeguard", type: "choice", choices: ["item-1", "item-2"], desc: "my choices" ]
+  ]
+
+  environments = [
+    MY_VAR: "my-value",
+    MY_VAR_INT: 12
+  ]
+
+  logs = [ days: 60 ]
+  githubProject = [ name: "GITHUB NAME", url: "https://github.com" ]
+
+  // upstreams = ["up"]
+  // downstreams = ["down", "test"]
 }
 ```
