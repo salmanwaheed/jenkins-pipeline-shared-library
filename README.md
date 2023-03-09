@@ -1,1 +1,1 @@
-# yc-jenkins-shared-library
+# jenkins-pipeline-shared-library
